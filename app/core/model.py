@@ -1,4 +1,11 @@
 from sqlmodel import SQLModel, Field
+from pydantic import BaseModel
+
+class ProductDTO(BaseModel):
+    id: int
+    name: str
+    price: float
+    zipcode: int
 
 class Product(SQLModel, table=True):
     __tablename__ = "products"

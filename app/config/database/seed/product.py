@@ -2,12 +2,15 @@ import random
 
 from faker import Faker
 from pluscodes import PlusCode
-from app.model import Product
-from app.config import database, typesense
+from app.core.model import Product
+from app.config import database, settings
+from app.core.typesense import Typesense
 
 fake = Faker()
 
 def generate_products(count: int = 10) -> list[Product]:
+    typesense = Typesense(collection_name=settings.TYPESENSE_COLLECTION_NAME)
+
     with database.get_session() as session:
         for _ in range(count):
             # Generate realistic coordinates for Brazilian territory

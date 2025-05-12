@@ -5,7 +5,7 @@ from typing import Dict, Any, List
 from app.config import settings
 
 class Typesense:
-    def __init__(self):
+    def __init__(self, collection_name: str):
         self.client = typesense.Client({
             'nodes': [{
                 'host': settings.TYPESENSE_HOST,
@@ -15,7 +15,7 @@ class Typesense:
             'api_key': settings.TYPESENSE_API_KEY,
             'connection_timeout_seconds': 2
         })
-        self.collection_name = settings.TYPESENSE_COLLECTION_NAME
+        self.collection_name = collection_name
         self._ensure_collection_exists()
 
     def _ensure_collection_exists(self):
@@ -38,5 +38,3 @@ class Typesense:
 
     def search(self, params: Dict[str, Any]) -> List[Dict[str, Any]]:
         return self.client.collections[self.collection_name].documents.search(params)
-
-typesense = Typesense()

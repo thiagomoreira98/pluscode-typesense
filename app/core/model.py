@@ -2,7 +2,6 @@ from sqlmodel import SQLModel, Field
 from pydantic import BaseModel
 
 class ProductDTO(BaseModel):
-    id: int
     name: str
     price: float
     zipcode: int

@@ -54,6 +54,14 @@ docker-compose up -d
 The service provides the following endpoints:
 
 - `GET /search/{zipcode}`: Search products by postal code
+- `POST /product/`: Create product
+```json
+{
+    "name": "str",
+    "price": 10.1,
+    "zipcode": 99999999
+}
+```
 
 ## Development
 

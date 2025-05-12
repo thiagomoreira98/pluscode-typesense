@@ -9,6 +9,6 @@ controller = ProductController()
 def index(zipcode: str):
     return controller.search(zipcode)
 
-@router.post("/")
+@router.post("/product")
 def create(product: ProductDTO):
     return controller.save(product)

@@ -15,6 +15,8 @@ typesense = Typesense(collection_name=settings.TYPESENSE_COLLECTION_NAME)
 logger = logger.get("app.seed.product")
 
 def generate_products(count: int = 1000):
+    logger.info(f"Generating {count} products")
+   
     for n in range(count):
         try:
             # Generate realistic coordinates for Brazilian territory
@@ -40,4 +42,6 @@ def generate_products(count: int = 1000):
         except Exception as e:
             pass
         finally:
-            logger.info(f"Product created: {n} of {count}")
+            logger.debug(f"Product created: {n+1} of {count}")
+
+    logger.info(f"Products generated successfully")

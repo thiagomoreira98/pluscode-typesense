@@ -10,17 +10,17 @@ class Settings(BaseSettings):
         extra="allow"
     )
 
-    DATABASE_HOST: str = "localhost"
-    DATABASE_PORT: int = 5432
-    DATABASE_USER: str = "postgres"
+    DATABASE_HOST: str
+    DATABASE_PORT: int
+    DATABASE_USER: str
     DATABASE_PASSWORD: str
-    DATABASE_NAME: str = "products"
+    DATABASE_NAME: str
     DATABASE_SHOW_SQL: bool = False
 
-    TYPESENSE_HOST: str = "localhost"
-    TYPESENSE_PORT: int = 8108
+    TYPESENSE_HOST: str
+    TYPESENSE_PORT: int
     TYPESENSE_API_KEY: str
-    TYPESENSE_COLLECTION_NAME: str = "products"
+    TYPESENSE_COLLECTION_NAME: str
 
     @property
     def DATABASE_URL(self) -> str:

@@ -13,7 +13,10 @@ services:
       - DATABASE_PASSWORD=postgres
       - DATABASE_NAME=products
       - DATABASE_SHOW_SQL=false
+      - TYPESENSE_HOST=typesense
+      - TYPESENSE_PORT=8108
       - TYPESENSE_API_KEY=xyz
+      - TYPESENSE_COLLECTION_NAME=products
     depends_on:
       - db
       - typesense

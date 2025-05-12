@@ -25,13 +25,15 @@ class Typesense:
             schema = {
                 'name': self.collection_name,
                 'fields': [
-                    {'name': 'id', 'type': 'int32'},
+                    {'name': 'id', 'type': 'string'},
                     {'name': 'name', 'type': 'string'},
                     {'name': 'price', 'type': 'float'},
+                    {'name': 'zipcode', 'type': 'int32'},
                     {'name': 'lat', 'type': 'float'},
                     {'name': 'lon', 'type': 'float'},
                     {'name': 'pluscode', 'type': 'string'},
                 ],
+                'default_sorting_field': 'zipcode'
             }
             self.client.collections.create(schema)
 

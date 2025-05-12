@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.routes import router
-from app.config import init
+from app.seed import generate_products
 
 app = FastAPI(
     title="Pluscode API",
@@ -10,7 +10,7 @@ app = FastAPI(
 
 @app.on_event("startup")
 def on_startup():
-    init()
+    generate_products(100000)
 
 app.include_router(router)
 

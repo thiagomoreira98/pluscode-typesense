@@ -1,13 +1,12 @@
-from typing import Dict, Any, List
+from uuid import uuid4
+from typing import List
 from app.config import settings, logger
-from app.core.model import ProductDTO, Product, ProductDocument
-from app.core.repository import ProductRepository
+from app.core.model import ProductDTO, ProductDocument
 from app.core.geolocator import Geolocator
 from app.core.typesense import Typesense
 
 class ProductService:
     def __init__(self):
-        self.repository = ProductRepository()
         self.geolocator = Geolocator()
         self.typesense = Typesense(collection_name=settings.TYPESENSE_COLLECTION_NAME)
         self.logger = logger.get("app.core.service")
@@ -23,35 +22,29 @@ class ProductService:
                 'q': pluscode,
                 'query_by': 'pluscode',
             })
-            self.logger.info(f"Results found: {results['found']}")
+            self.logger.info(f"results found: {results['found']}")
 
             return list(map(lambda document: ProductDocument(**document['document']), results['hits']))
         except Exception as e:
-            raise Exception(f"Error searching products: {str(e)}")
+            self.logger.error(f"Error searching products: {str(e)}")
+            raise e
         
-    def save(self, dto: ProductDTO):
+    def save(self, product: ProductDTO):
         try:
-            self.logger.info(f"Saving product located in zipcode={dto.zipcode}")
-            lat, lon = self.geolocator.zipcode_to_coordinates(dto.zipcode)
-
-            product = self.repository.save(Product(
-                name=dto.name,
-                price=dto.price,
-                lat=lat,
-                lon=lon
-            ))
-            self.logger.info(f"Product created on database: product_id={product.id}")
-
+            lat, lon = self.geolocator.zipcode_to_coordinates(product.zipcode)
             pluscode = self.geolocator.coordinates_to_pluscode(lat, lon)
-        
-            self.typesense.save({
-                'id': str(product.id),
-                'name': product.name,
-                'price': product.price,
-                'lat': product.lat,
-                'lon': product.lon,
-                'pluscode': pluscode
-            })
-            self.logger.info(f"Product saved on typesense: pluscode={pluscode}")
+
+            document = ProductDocument(
+                id=str(uuid4()),
+                name=product.name,
+                price=product.price,
+                zipcode=product.zipcode,
+                lat=lat,
+                lon=lon,
+                pluscode=pluscode
+            )
+            self.typesense.save(document.model_dump())
+            self.logger.info(f"Product saved -> product={document}")
         except Exception as e:
-            raise Exception(f"Error saving product: {str(e)}")
+            self.logger.error(f"Error saving product on typesense: {str(e)}")
+            raise e

@@ -39,12 +39,6 @@ Create a `.env` file in the root directory with the following variables:
 | Name                      | Description                  | Required | Default |
 |---------------------------|------------------------------|----------|---------|
 | LOGGER_LEVEL              | Logs severity level          | No       | INFO    |
-| DATABASE_HOST             | PostgreSQL database host     | Yes      | -       |
-| DATABASE_PORT             | PostgreSQL database port     | Yes      | -       |
-| DATABASE_USER             | PostgreSQL database user     | Yes      | -       |
-| DATABASE_PASSWORD         | PostgreSQL database password | Yes      | -       |
-| DATABASE_NAME             | PostgreSQL database name     | Yes      | -       |
-| DATABASE_SHOW_SQL         | Enable SQL query logging     | No       | false   |
 | TYPESENSE_HOST            | Typesense server host        | Yes      | -       |
 | TYPESENSE_PORT            | Typesense server port        | Yes      | -       |
 | TYPESENSE_API_KEY         | Typesense API key            | Yes      | -       |
@@ -90,6 +84,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Acknowledgments
 
 - [Typesense](https://typesense.org/) for the search engine
-- [PostgreSQL](https://www.postgresql.org/) for the database engine
 - [Plus Codes](https://plus.codes/) for the location encoding system
-- [pgeocode](https://github.com/symerio/pgeocode) for Brazilian postal code geocoding
+- [pgeocode](https://github.com/symerio/pgeocode) for postal code geocoding
+- [postalcodes](https://symerio.github.io/postal-codes-data/data/geonames/BR.txt)

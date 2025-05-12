@@ -7,29 +7,13 @@ services:
     ports:
       - 8000:8000
     environment:
-      - DATABASE_HOST=db
-      - DATABASE_PORT=5432
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=postgres
-      - DATABASE_NAME=products
-      - DATABASE_SHOW_SQL=false
+      - LOG_LEVEL=INFO
       - TYPESENSE_HOST=typesense
       - TYPESENSE_PORT=8108
       - TYPESENSE_API_KEY=xyz
       - TYPESENSE_COLLECTION_NAME=products
     depends_on:
-      - db
       - typesense
-
-  db:
-    container_name: pluscode-db
-    image: postgres:17-alpine
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=products
-    ports:
-      - 5432:5432
 
   typesense:
     container_name: pluscode-typesense

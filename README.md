@@ -38,6 +38,7 @@ Create a `.env` file in the root directory with the following variables:
 
 | Name                      | Description                  | Required | Default |
 |---------------------------|------------------------------|----------|---------|
+| LOGGER_LEVEL              | Logs severity level          | No       | INFO    |
 | DATABASE_HOST             | PostgreSQL database host     | Yes      | -       |
 | DATABASE_PORT             | PostgreSQL database port     | Yes      | -       |
 | DATABASE_USER             | PostgreSQL database user     | Yes      | -       |

@@ -10,13 +10,13 @@ class Settings(BaseSettings):
         extra="allow"
     )
 
+    LOG_LEVEL: str = "INFO"
     DATABASE_HOST: str
     DATABASE_PORT: int
     DATABASE_USER: str
     DATABASE_PASSWORD: str
     DATABASE_NAME: str
     DATABASE_SHOW_SQL: bool = False
-
     TYPESENSE_HOST: str
     TYPESENSE_PORT: int
     TYPESENSE_API_KEY: str

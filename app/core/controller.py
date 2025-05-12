@@ -1,3 +1,4 @@
+from fastapi.responses import JSONResponse
 from app.core.service import ProductService
 from app.core.model import ProductDTO
 
@@ -6,9 +7,15 @@ class ProductController:
         self.service = ProductService()
 
     def search(self,zipcode: str):
-        return self.service.find_by_zipcode(zipcode)
+        try:
+            return self.service.find_by_zipcode(zipcode)
+        except Exception as e:
+            return JSONResponse(status_code=500, content={"message": "Error searching products"})
     
     def save(self, product: ProductDTO):
-        self.service.save(product)
-        return {"message": "Product created successfully"}
+        try:
+            self.service.save(product)
+            return {"message": "Product created successfully"}
+        except Exception as e:
+            return JSONResponse(status_code=500, content={"message": "Error creating product"})
     

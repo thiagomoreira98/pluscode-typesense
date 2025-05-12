@@ -1,6 +1,6 @@
 from typing import Dict, Any, List
 from app.config import settings, logger
-from app.core.model import ProductDTO, Product
+from app.core.model import ProductDTO, Product, ProductDocument
 from app.core.repository import ProductRepository
 from app.core.geolocator import Geolocator
 from app.core.typesense import Typesense
@@ -12,27 +12,27 @@ class ProductService:
         self.typesense = Typesense(collection_name=settings.TYPESENSE_COLLECTION_NAME)
         self.logger = logger.get("app.core.service")
 
-    def find_by_zipcode(self, zipcode: str) -> List[Dict[str, Any]]:
+    def find_by_zipcode(self, zipcode: str) -> List[ProductDocument]:
         try:
             self.logger.info(f"Searching for products by zipcode: {zipcode}")
-            
             lat, lon = self.geolocator.zipcode_to_coordinates(zipcode)
-            self.logger.info(f"Coordinates: {lat}, {lon}")
-            
             pluscode = self.geolocator.coordinates_to_pluscode(lat, lon)
             self.logger.info(f"Pluscode: {pluscode}")
 
-            return self.typesense.search({
+            results = self.typesense.search({
                 'q': pluscode,
                 'query_by': 'pluscode',
             })
+            self.logger.info(f"Results found: {results['found']}")
+
+            return list(map(lambda document: ProductDocument(**document['document']), results['hits']))
         except Exception as e:
             raise Exception(f"Error searching products: {str(e)}")
         
     def save(self, dto: ProductDTO):
         try:
+            self.logger.info(f"Saving product located in zipcode={dto.zipcode}")
             lat, lon = self.geolocator.zipcode_to_coordinates(dto.zipcode)
-            self.logger.info(f"Coordinates: {lat}, {lon}")
 
             product = self.repository.save(Product(
                 name=dto.name,
@@ -48,6 +48,8 @@ class ProductService:
                 'id': str(product.id),
                 'name': product.name,
                 'price': product.price,
+                'lat': product.lat,
+                'lon': product.lon,
                 'pluscode': pluscode
             })
             self.logger.info(f"Product saved on typesense: pluscode={pluscode}")

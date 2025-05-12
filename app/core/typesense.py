@@ -28,6 +28,8 @@ class Typesense:
                     {'name': 'id', 'type': 'int32'},
                     {'name': 'name', 'type': 'string'},
                     {'name': 'price', 'type': 'float'},
+                    {'name': 'lat', 'type': 'float'},
+                    {'name': 'lon', 'type': 'float'},
                     {'name': 'pluscode', 'type': 'string'},
                 ],
             }

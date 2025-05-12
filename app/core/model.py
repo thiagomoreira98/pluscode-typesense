@@ -6,6 +6,14 @@ class ProductDTO(BaseModel):
     price: float
     zipcode: int
 
+class ProductDocument(BaseModel):
+    id: str
+    name: str
+    price: float
+    lat: float
+    lon: float
+    pluscode: str
+
 class Product(SQLModel, table=True):
     __tablename__ = "products"
 

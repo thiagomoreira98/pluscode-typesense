@@ -6,6 +6,6 @@ from .database.seed.product import generate_products
 
 def init():
     database.init()
-    generate_products(100)
+    generate_products(1000)
 
 __all__ = ["logger", "settings", "database"]

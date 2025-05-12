@@ -30,5 +30,7 @@ def generate_products(count: int = 10) -> list[Product]:
                 'id': str(product.id),
                 'name': product.name,
                 'price': product.price,
-                'pluscode': str(PlusCode(lat=product.lat, lon=product.lon))
+                'lat': product.lat,
+                'lon': product.lon,
+                'pluscode': PlusCode(lat=product.lat, lon=product.lon).code
             })

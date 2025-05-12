@@ -10,7 +10,7 @@ app = FastAPI(
 
 @app.on_event("startup")
 def on_startup():
-    generate_products(100000)
+    generate_products(1000)
 
 app.include_router(router)
 

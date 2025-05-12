@@ -6,3 +6,5 @@ class ProductRepository:
     def save(self, product: Product) -> Product:
         with database.get_session() as session:
             session.add(product)
+            session.flush()
+            return product

@@ -1,6 +1,6 @@
-# PlusCode Typesense
+# Search Typesense
 
-A Python service that integrates Plus Codes with Typesense to enable efficient geospatial product search using postal codes (CEP) for Brazilian addresses.
+A Python service integrates with Typesense to enable efficient geospatial product search using postal codes (CEP) for Brazilian addresses.
 
 ## Overview
 

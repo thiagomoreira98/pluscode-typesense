@@ -26,7 +26,6 @@ def generate_products(count: int = 1000):
         try:
             # Generate realistic coordinates for Brazilian territory
             zipcode = f"{random.randint(10000, 99999)}-{random.randint(0, 999)}"
-            # zipcode = "14400-470"
             lat, lon = _get_coordinates(zipcode)
             pluscode = PlusCode(lat=lat, lon=lon).code
 
@@ -35,8 +34,7 @@ def generate_products(count: int = 1000):
                 name=fake.word().capitalize() + " " + fake.word().capitalize(),
                 price=round(random.uniform(10.0, 1000.0), 2),
                 zipcode=int(zipcode.replace("-", "")),
-                lat=lat,
-                lon=lon,
+                location=[lat, lon],
                 pluscode=pluscode
             )
         

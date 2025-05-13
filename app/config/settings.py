@@ -8,9 +8,9 @@ class Settings(BaseSettings):
     )
 
     LOG_LEVEL: str = "INFO"
-    TYPESENSE_HOST: str
-    TYPESENSE_PORT: int
+    TYPESENSE_HOST: str = "localhost"
+    TYPESENSE_PORT: int = 8108
     TYPESENSE_API_KEY: str
-    TYPESENSE_COLLECTION_NAME: str
+    TYPESENSE_COLLECTION_NAME: str = "products"
 
 settings = Settings()

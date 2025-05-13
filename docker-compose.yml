@@ -1,6 +1,6 @@
 services:
   app:
-    container_name: pluscode-app
+    container_name: app
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
       - typesense
 
   typesense:
-    container_name: pluscode-typesense
+    container_name: typesense
     image: typesense/typesense:28.0
     ports:
       - 8108:8108

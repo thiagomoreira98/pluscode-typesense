@@ -29,8 +29,7 @@ class Typesense:
                     {'name': 'name', 'type': 'string'},
                     {'name': 'price', 'type': 'float'},
                     {'name': 'zipcode', 'type': 'int32'},
-                    {'name': 'lat', 'type': 'float'},
-                    {'name': 'lon', 'type': 'float'},
+                    {'name': 'location', 'type': 'geopoint'},
                     {'name': 'pluscode', 'type': 'string'},
                 ],
                 'default_sorting_field': 'zipcode'

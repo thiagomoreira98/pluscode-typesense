@@ -10,6 +10,5 @@ class ProductDocument(BaseModel):
     name: str
     price: float
     zipcode: int
-    lat: float
-    lon: float
+    location: list[float]
     pluscode: str

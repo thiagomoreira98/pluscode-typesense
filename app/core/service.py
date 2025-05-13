@@ -10,16 +10,33 @@ class ProductService:
         self.geolocator = Geolocator()
         self.typesense = Typesense(collection_name=settings.TYPESENSE_COLLECTION_NAME)
         self.logger = logger.get("app.core.service")
+        self.radius_unit = "km"
 
-    def find_by_zipcode(self, zipcode: str) -> List[ProductDocument]:
+    def find_by_radius_using_location(self, zipcode: int, radius: int) -> List[ProductDocument]:
         try:
-            self.logger.info(f"Searching for products by zipcode: {zipcode}")
             lat, lon = self.geolocator.zipcode_to_coordinates(zipcode)
-            pluscode = self.geolocator.coordinates_to_pluscode(lat, lon)
-            self.logger.info(f"Pluscode: {pluscode}")
+            self.logger.info(f"Searching for products using latitude={lat} and longitude={lon} and radius={radius} {self.radius_unit}")
 
             results = self.typesense.search({
-                'q': pluscode,
+                'q': '*',
+                'query_by': 'name',
+                'filter_by': f'location:({lat}, {lon}, {radius} {self.radius_unit})',
+            })
+            self.logger.info(f"results found: {results['found']}")
+
+            return list(map(lambda document: ProductDocument(**document['document']), results['hits']))
+        except Exception as e:
+            self.logger.error(f"Error searching products: {str(e)}")
+            raise e
+        
+    def find_by_radius_using_pluscode(self, zipcode: int) -> List[ProductDocument]:
+        try:
+            lat, lon = self.geolocator.zipcode_to_coordinates(zipcode)
+            pluscode = self.geolocator.coordinates_to_pluscode(lat, lon)
+            self.logger.info(f"Searching for products using pluscode={pluscode}")
+
+            results = self.typesense.search({
+                'q': pluscode[0:6],
                 'query_by': 'pluscode',
             })
             self.logger.info(f"results found: {results['found']}")
@@ -39,8 +56,7 @@ class ProductService:
                 name=product.name,
                 price=product.price,
                 zipcode=product.zipcode,
-                lat=lat,
-                lon=lon,
+                location=[lat, lon],
                 pluscode=pluscode
             )
             self.typesense.save(document.model_dump())

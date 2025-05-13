@@ -36,13 +36,13 @@ poetry install
 3. Configure environment variables:
 Create a `.env` file in the root directory with the following variables:
 
-| Name                      | Description                  | Required | Default |
-|---------------------------|------------------------------|----------|---------|
-| LOGGER_LEVEL              | Logs severity level          | No       | INFO    |
-| TYPESENSE_HOST            | Typesense server host        | Yes      | -       |
-| TYPESENSE_PORT            | Typesense server port        | Yes      | -       |
-| TYPESENSE_API_KEY         | Typesense API key            | Yes      | -       |
-| TYPESENSE_COLLECTION_NAME | Typesense collection name    | Yes      | -       |
+| Name                      | Description                  | Required | Default   |
+|---------------------------|------------------------------|----------|-----------|
+| LOG_LEVEL                 | Logs severity level          | No       | INFO      |
+| TYPESENSE_HOST            | Typesense server host        | No       | localhost |
+| TYPESENSE_PORT            | Typesense server port        | No       | 8108      |
+| TYPESENSE_API_KEY         | Typesense API key            | Yes      | -         |
+| TYPESENSE_COLLECTION_NAME | Typesense collection name    | No       | products  |
 
 4. Start Typesense using Docker Compose:
 ```bash
@@ -55,7 +55,8 @@ docker-compose up -d
 
 The service provides the following endpoints:
 
-- `GET /search/{zipcode}`: Search products by postal code
+- `GET /search-using-radius?zipcode=99999999&radius=10`: Search products by latitude and longitude using typesense native GeoSearch
+- `GET /search-using-pluscode?zipcode=99999999&radius=10`: Search products by latitude and longitude using pluscode
 - `POST /product/`: Create product
 ```json
 {
